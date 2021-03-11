@@ -11,7 +11,49 @@
 <link rel="stylesheet" href="index.css">
 
 <!-- Dynamically add places from Javascript -->
-<script src="places.js"></script>
+	<script>
+		<script>
+  window.onload = () => {
+    // setTimeout(() => {
+    let places = staticLoadPlaces();
+    return renderPlaces(places);
+    // }, 3000)
+
+    function staticLoadPlaces() {
+      return [{
+        name: "Your place name",
+        location: {
+          lat: 52.2667465209961, // change here latitude if using static data
+          lng: -7.09122848510742, // change here longitude if using static data
+        }
+      }];
+    }
+
+    function renderPlaces(places) {
+      let scene = document.querySelector('a-scene');
+
+      places.forEach((place) => {
+        let latitude = place.location.lat;
+        let longitude = place.location.lng;
+
+        // add place name
+        let icon = document.createElement('a-entity');
+        icon.setAttribute('gps-entity-place', `latitude: ${latitude}; longitude: ${longitude};`);
+        icon.setAttribute('title', place.name);
+        icon.setAttribute('src', 'marker.obj');
+        icon.setAttribute('scale', '3 3 3');
+
+        text.addEventListener('loaded', () => {
+          window.dispatchEvent(new CustomEvent('gps-entity-place-loaded'))
+        });
+
+        scene.appendChild(text);
+      });
+    }
+  }
+</script>
+			  };
+	</script>
 
 <body style='margin: 0; overflow: hidden;'>
     <a-scene
